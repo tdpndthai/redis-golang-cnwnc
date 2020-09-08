@@ -20,5 +20,11 @@ or
 ./<name_modules> (./redis-golang-cnwnc)
 ```
 
+### Server redis
+```
+RUN docker pull redis
+RUN docker run --name my-redis -p 6379:6379 -d redis
+```
+
 ### Using package  
 https://github.com/go-redis/redis
