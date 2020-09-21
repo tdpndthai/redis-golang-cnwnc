@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"redis-golang-cnwnc/cache"
 	"redis-golang-cnwnc/connectdb"
+	"redis-golang-cnwnc/entities"
 	"redis-golang-cnwnc/models"
 	"time"
 
@@ -57,14 +58,12 @@ func GetAll(c *gin.Context) {
 		}
 		err1 := UseRateLimit(5, 120)
 		if err1 != nil {
+			var products *[]entities.Product = productCache.Get("products")
+			fmt.Println(products)
+		} else {
 			procs, err2 := productModel.GetAll()
 			productCache.Set("products", &procs)
 			if err2 != nil {
-				panic(err2)
-			}
-		} else {
-			procs, err3 := productModel.GetAll()
-			if err3 != nil {
 				c.AbortWithStatus(404)
 				fmt.Println(err)
 			} else {
